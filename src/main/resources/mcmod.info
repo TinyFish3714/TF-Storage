@@ -1,0 +1,18 @@
+[
+{
+  "modid": "tfstorage",
+  "name": "TF Storage",
+  "description": "TF Storage solutions for Minecraft. A streamlined fork of Ender Utilities focused on storage.",
+  "version": "${mod_version}",
+  "mcversion": "${minecraft_version}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["tinyfish3714"],
+  "credits": "Based on Ender Utilities by maruohon. Licensed under LGPLv3.",
+  "logoFile": "assets/tfstorage/textures/logo.png",
+  "screenshots": [],
+  "dependencies": [
+    "MinecraftForge"
+  ]
+}
+]

@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IEI",
+        "PCP"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "E": {
+            "item": "tfstorage:edcore"
+        },
+        "P": {
+            "item": "minecraft:ender_pearl"
+        },
+        "C": {
+            "item": "tfstorage:tf_chest",
+            "data": 0
+        }
+    },
+    "result": {
+        "item": "tfstorage:tf_chest",
+        "data": 1,
+        "count": 1
+    }
+}

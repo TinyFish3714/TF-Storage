@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IDI",
+        "GEG",
+        "IMI"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "E": {
+            "item": "tfstorage:edcore"
+        },
+        "M": {
+            "item": "minecraft:emerald"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfcore",
+        "count": 1
+    }
+}

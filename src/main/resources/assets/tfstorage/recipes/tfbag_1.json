@@ -1,0 +1,31 @@
+{
+    "type": "tfstorage:preserve_nbt",
+    "pattern": [
+        "PTP",
+        "EBE",
+        "LTL"
+    ],
+    "key": {
+        "P": {
+            "item": "minecraft:ender_pearl"
+        },
+        "T": {
+            "item": "tfstorage:tfcore"
+        },
+        "E": {
+            "item": "tfstorage:edcore"
+        },
+        "B": {
+            "item": "tfstorage:tfbag",
+            "data": 0
+        },
+        "L": {
+            "item": "minecraft:leather"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfbag",
+        "data": 1,
+        "count": 1
+    }
+}

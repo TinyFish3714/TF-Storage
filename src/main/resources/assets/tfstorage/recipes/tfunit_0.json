@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " G ",
+        "IEI"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "E": {
+            "item": "tfstorage:edcore"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfunit",
+        "data": 0,
+        "count": 2
+    }
+}
