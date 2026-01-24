@@ -1,0 +1,179 @@
+buildscript {
+    repositories {
+        // 阿里云镜像站 - 加速构建脚本依赖下载
+        maven {
+            name "AliyunPublic"
+            url "https://maven.aliyun.com/repository/public"
+        }
+        maven {
+            name "AliyunGradlePlugin"
+            url "https://maven.aliyun.com/repository/gradle-plugin"
+        }
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "https://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+repositories {
+    // JEI Maven (Official)
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    // Cleanroom Maven (Mirror for many 1.12 mods)
+    maven {
+        url "https://maven.cleanroommc.com"
+    }
+    // 阿里云镜像站 - 加速项目依赖下载
+    maven {
+        name "AliyunPublic"
+        url "https://maven.aliyun.com/repository/public"
+    }
+    maven {
+        name "AliyunSpring"
+        url "https://maven.aliyun.com/repository/spring"
+    }
+    // ModMaven for Baubles
+    maven {
+        name "ModMaven"
+        url "https://modmaven.k-4u.nl"
+    }
+    // JEI
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+}
+
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+group = config.group + config.mod_id // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = config.mod_id + '-' + config.minecraft_version_out
+
+// Need this here so eclipse task generates correctly.
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// Enable incremental compilation globally
+tasks.withType(JavaCompile) {
+    options.incremental = true
+    options.encoding = 'UTF-8'
+}
+
+// Enable incremental test execution
+tasks.withType(Test) {
+    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    // Enable incremental compilation
+    options.incremental = true
+
+    // Enable compiler warnings
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+
+    // Store compilation analysis for better incremental builds
+    options.fork = true
+}
+
+minecraft {
+    version = config.minecraft_version + "-" + config.forge_version
+    runDir = "../minecraft"
+
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not allways work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings =  config.mappings_version
+    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    ext.mod_version = "${config.mod_version}"
+
+    if (mod_version.endsWith('-dev')) {
+        mod_version = mod_version + "." + new Date().format('yyyyMMdd.HHmmss')
+    }
+
+    replaceIn "tf/storage/core/ModInfo.java"
+    replace "@MOD_VERSION@", mod_version
+
+    if (project.hasProperty("signJarKeyStore")) {
+        replace "@FINGERPRINT@", signJarFingerprint
+    }
+}
+
+dependencies {
+    // Baubles
+    deobfCompile "com.azanor.baubles:Baubles:${config.baubles_api_version}"
+    // JEI
+    deobfCompile "mezz.jei:jei_1.12.2:4.16.1.301"
+}
+
+version = project.minecraft.mod_version
+
+processResources {
+    // Exclude the GIMP image files
+    exclude '**/*.xcf'
+
+    // Exclude the Cubik model files
+    exclude '**/*.bdc3D'
+
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "mod_version", project.minecraft.mod_version
+    inputs.property "minecraft_version", project.config.minecraft_version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'mod_version': project.minecraft.mod_version, 'minecraft_version': project.config.minecraft_version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+
+    // Move access transformers to META-INF
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+jar {
+    manifest {
+        attributes 'FMLAT': config.mod_id + '_at.cfg'
+    }
+}
+
+if (project.hasProperty("signJarKeyStore")) {
+    task signJar(type: SignJar, dependsOn: reobfJar) {
+        inputFile = jar.archivePath
+        outputFile = jar.archivePath
+
+        keyStore = signJarKeyStore
+        alias = signJarAlias
+        storePass = signJarStorePass
+        keyPass = signJarKeyPass
+    }
+
+    build.dependsOn signJar
+}

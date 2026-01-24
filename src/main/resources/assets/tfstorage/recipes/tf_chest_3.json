@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " E ",
+        "PCP",
+        "PTP"
+    ],
+    "key": {
+        "E": {
+            "item": "tfstorage:edcore"
+        },
+        "P": {
+            "item": "minecraft:ender_pearl"
+        },
+        "C": {
+            "item": "tfstorage:tf_chest",
+            "data": 2
+        },
+        "T": {
+            "item": "tfstorage:tfcore"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tf_chest",
+        "data": 3,
+        "count": 1
+    }
+}

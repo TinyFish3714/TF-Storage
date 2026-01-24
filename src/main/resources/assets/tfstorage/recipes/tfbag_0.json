@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "LIL",
+        "ISI",
+        "LIL"
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:leather"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "S": {
+            "item": "tfstorage:sycore"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfbag",
+        "data": 0,
+        "count": 1
+    }
+}

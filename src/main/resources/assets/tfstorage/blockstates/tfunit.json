@@ -1,0 +1,30 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tfstorage:item_default"
+    },
+    "variants": {
+        "tex": {
+            "tfunit_items_6b": {
+                "textures": {
+                    "layer0": "tfstorage:items/tfunit_items_6b"
+                }
+            },
+            "tfunit_items_8b": {
+                "textures": {
+                    "layer0": "tfstorage:items/tfunit_items_8b"
+                }
+            },
+            "tfunit_items_10b": {
+                "textures": {
+                    "layer0": "tfstorage:items/tfunit_items_10b"
+                }
+            },
+            "tfunit_items_12b": {
+                "textures": {
+                    "layer0": "tfstorage:items/tfunit_items_12b"
+                }
+            }
+        }
+    }
+}

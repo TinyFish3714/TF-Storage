@@ -1,0 +1,78 @@
+language.name=Simplified Chinese
+language.region=CN
+language.code=zh_CN
+
+itemGroup.tfstorage=TF 存储
+tfstorage.container.tfbag=TF 包
+tfstorage.container.tf_chest=TF 箱子
+tile.tfstorage.tf_chest_0.name=TF 箱子 (小)
+tile.tfstorage.tf_chest_1.name=TF 箱子 (正常)
+tile.tfstorage.tf_chest_2.name=TF 箱子 (大)
+tile.tfstorage.tf_chest_3.name=TF 箱子 (超大)
+item.tfstorage.tfunit_items_0.name=TF单元 (6B)
+item.tfstorage.tfunit_items_1.name=TF单元 (8B)
+item.tfstorage.tfunit_items_2.name=TF单元 (10B)
+item.tfstorage.tfunit_items_3.name=TF单元 (12B)
+item.tfstorage.tfbag_0.name=TF 包
+item.tfstorage.tfbag_1.name=TF 包 (大)
+
+item.tfstorage.tfunit_items_0.tooltips=- 可以存储 2^(字节数) = 一组64物品
+item.tfstorage.tfunit_items_1.tooltips=- 可以存储 2^(字节数) = 一组256物品
+item.tfstorage.tfunit_items_2.tooltips=- 可以存储 2^(字节数) = 一组1024物品
+item.tfstorage.tfunit_items_3.tooltips=- 可以存储 2^(字节数) = 一组4096物品
+
+item.tfstorage.tfbag.tooltips=- 打开物品栏时这个背包会被打开|lf  物品栏里可以看到TF包|lf- 将使用发现的第一个包 (先匹配快捷栏，然后是从物品栏最左上开始匹配) |lf- 潜行时打开常规物品栏
+
+tfstorage.gui.label.bag.disabled=包被禁用
+tfstorage.gui.label.bag.enabled=包被启用
+#================================================
+# TF 包的区域操作功能 (原区域锁定)
+#================================================
+
+# 区域操作启用时的提示（允许快捷操作操作）
+tfstorage.gui.label.regionop.enabled=§a区域操作：开启§r|lf§7此区域的快捷操作§a已启用§7
+
+# 区域操作禁用时的提示（阻止快捷操作操作）
+tfstorage.gui.label.regionop.disabled=§c区域操作：关闭§r|lf§7此区域的快捷操作§c已禁用§7
+tfstorage.gui.label.fillstacks=填满所有存在的物品栏
+tfstorage.gui.label.tfbag.shiftclick.doubletapshift=Shift-单击行为:|lf连按两下shift切换
+tfstorage.gui.label.tfbag.shiftclick.invhotbar=Shift-单击行为:|lf在物品栏和快捷栏间移动
+tfstorage.gui.label.tfbag.shiftclick.tobag=Shift-单击行为:|lf移动到包
+tfstorage.gui.label.holdshifttoincludehotbar=(按下shift包括了快捷栏)
+tfstorage.gui.label.leaveonefilledstack=每个类型的物品都留下一整组
+tfstorage.gui.label.moveallitems=移动所有物品
+tfstorage.gui.label.moveallitemsexcepthotbar=移动所有物品 (除快捷栏)
+tfstorage.gui.label.movematchingitems=移动匹配的物品
+tfstorage.gui.label.movematchingitemsexcepthotbar=移动匹配的物品 (除快捷栏)
+tfstorage.gui.label.pickupmode.all=拾取模式：所有
+tfstorage.gui.label.pickupmode.disabled=拾取模式：禁用
+tfstorage.gui.label.pickupmode.matching=拾取模式：匹配
+tfstorage.gui.label.restockmode.off=§c补货模式: 关§r|lf§7不自动填充快捷栏。
+tfstorage.gui.label.restockmode.on=§a补货模式: 开§r|lf§7自动填充快捷栏的物品和工具。
+tfstorage.gui.label.sortitems.player=分类玩家物品栏
+tfstorage.gui.label.sortitems=分类物品
+tfstorage.tooltip.item.pickupmode.short=PUM
+tfstorage.tooltip.item.holdshift=按下 §e§oShift§7 查看更多
+tfstorage.tooltip.item.holdshiftfordescription=按下 §e§oShift§7 查看描述
+tfstorage.tooltip.item.disabled=禁用
+tfstorage.tooltip.item.restockmode.short=补货
+tfstorage.tooltip.item.pickupmode=拾取模式
+tfstorage.tooltip.item.restockmode=补货模式
+tfstorage.tooltip.item.enabled=启用
+tfstorage.tooltip.item.off=关
+tfstorage.tooltip.item.on=开
+tfstorage.tooltip.item.selectedmemorycard.short=TF:
+tfstorage.tooltip.item.tfunit.items.stackcount=一共存储 %d 组 / %d 物品
+tfstorage.tooltip.item.yes=是
+tfstorage.tooltip.item.no=无
+tfstorage.tooltip.item.tfunit.nodata=没有数据
+tfstorage.tooltip.item.tfunit.noitems=没有物品
+
+# 代码中使用但之前缺失的翻译键
+tfstorage.tooltip.item.selectedmemorycard.notinstalled=未安装
+tfstorage.tooltip.item.nomemorycards=没有安装TF单元
+tfstorage.tooltip.item.matching=匹配
+tfstorage.tooltip.item.all=全部
+item.tfstorage.sycore.name=合成核心
+item.tfstorage.edcore.name=末影核心
+item.tfstorage.tfcore.name=TF核心

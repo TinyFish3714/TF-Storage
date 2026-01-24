@@ -1,0 +1,34 @@
+{
+    "type": "tfstorage:preserve_nbt",
+    "pattern": [
+        "GEG",
+        "PMp",
+        "IEI"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "E": {
+            "item": "tfstorage:edcore"
+        },
+        "P": {
+            "item": "minecraft:ender_pearl"
+        },
+        "M": {
+            "item": "tfstorage:tfunit",
+            "data": 0
+        },
+        "p": {
+            "item": "minecraft:ender_pearl"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfunit",
+        "data": 1,
+        "count": 1
+    }
+}

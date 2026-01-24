@@ -1,0 +1,45 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "tfstorage:chest",
+        "transform": "forge:default-block"
+    },
+    "variants": {
+        "type": {
+            "tf_chest_0": {
+                "textures": {
+                    "front":    "tfstorage:blocks/tf_chest_0_front",
+                    "side":     "tfstorage:blocks/tf_chest_0_side",
+                    "top":      "tfstorage:blocks/tf_chest_0_top"
+                }
+            },
+            "tf_chest_1": {
+                "textures": {
+                    "front":    "tfstorage:blocks/tf_chest_1_front",
+                    "side":     "tfstorage:blocks/tf_chest_1_side",
+                    "top":      "tfstorage:blocks/tf_chest_1_top"
+                }
+            },
+            "tf_chest_2": {
+                "textures": {
+                    "front":    "tfstorage:blocks/tf_chest_2_front",
+                    "side":     "tfstorage:blocks/tf_chest_2_side",
+                    "top":      "tfstorage:blocks/tf_chest_2_top"
+                }
+            },
+            "tf_chest_3": {
+                "textures": {
+                    "front":    "tfstorage:blocks/tf_chest_3_front",
+                    "side":     "tfstorage:blocks/tf_chest_3_side",
+                    "top":      "tfstorage:blocks/tf_chest_3_top"
+                }
+            }
+        },
+        "facing": {
+            "north": {},
+            "south": { "y": 180 },
+            "west":  { "y": 270 },
+            "east":  { "y": 90 }
+        }
+    }
+}

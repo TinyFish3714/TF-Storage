@@ -1,0 +1,28 @@
+{
+    "type": "tfstorage:preserve_nbt",
+    "pattern": [
+        "DSD",
+        "TMT",
+        "TST"
+    ],
+    "key": {
+        "D": {
+            "item": "minecraft:diamond_block"
+        },
+        "S": {
+            "item": "minecraft:nether_star"
+        },
+        "T": {
+            "item": "tfstorage:tfcore"
+        },
+        "M": {
+            "item": "tfstorage:tfunit",
+            "data": 2
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfunit",
+        "data": 3,
+        "count": 1
+    }
+}

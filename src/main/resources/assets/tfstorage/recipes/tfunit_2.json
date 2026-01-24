@@ -1,0 +1,31 @@
+{
+    "type": "tfstorage:preserve_nbt",
+    "pattern": [
+        "GIG",
+        "TMT",
+        "GDG"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_block"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        },
+        "T": {
+            "item": "tfstorage:tfcore"
+        },
+        "M": {
+            "item": "tfstorage:tfunit",
+            "data": 1
+        },
+        "D": {
+            "item": "minecraft:diamond_block"
+        }
+    },
+    "result": {
+        "item": "tfstorage:tfunit",
+        "data": 2,
+        "count": 1
+    }
+}
