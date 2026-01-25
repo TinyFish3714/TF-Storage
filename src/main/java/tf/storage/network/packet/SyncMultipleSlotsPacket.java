@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tf.storage.TFStorage;
 import tf.storage.inventory.container.base.BaseContainer;
 import io.netty.buffer.ByteBuf;
@@ -88,13 +89,20 @@ public class SyncMultipleSlotsPacket implements IMessage
                 return null;
             }
             
+            handleClientSide(message, ctx);
+            return null;
+        }
+
+        @SideOnly(Side.CLIENT)
+        private void handleClientSide(final SyncMultipleSlotsPacket message, MessageContext ctx)
+        {
             Minecraft mc = FMLClientHandler.instance().getClient();
             final EntityPlayer player = TFStorage.proxy.getPlayerFromMessageContext(ctx);
             
             if (mc == null || player == null)
             {
                 TFStorage.logger.error("Minecraft or player was null in SyncMultipleSlotsPacket");
-                return null;
+                return;
             }
             
             mc.addScheduledTask(new Runnable()
@@ -104,10 +112,9 @@ public class SyncMultipleSlotsPacket implements IMessage
                     processMessage(message, player);
                 }
             });
-            
-            return null;
         }
         
+        @SideOnly(Side.CLIENT)
         protected void processMessage(final SyncMultipleSlotsPacket message, EntityPlayer player)
         {
             if (player.openContainer instanceof BaseContainer &&

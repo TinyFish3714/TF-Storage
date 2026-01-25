@@ -17,6 +17,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tf.storage.item.base.BaseItem;
 import tf.storage.core.ModInfo;
 import tf.storage.core.ModItems;
@@ -73,6 +75,7 @@ public class TFUnit extends BaseItem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addTooltipLines(ItemStack stack, EntityPlayer player, List<String> list, boolean verbose)
     {
         NBTTagCompound nbt = stack.getTagCompound();
@@ -129,6 +132,7 @@ public class TFUnit extends BaseItem
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ResourceLocation[] getItemVariants()
     {
         String rl = ModInfo.MOD_ID + ":" + this.name;

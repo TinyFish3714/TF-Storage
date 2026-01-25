@@ -30,6 +30,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -160,6 +162,7 @@ public class TFBag extends BaseItem implements IBauble
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addTooltipLines(ItemStack containerStack, EntityPlayer player, List<String> list, boolean verbose)
     {
         if (containerStack.getTagCompound() == null)
@@ -610,6 +613,7 @@ public class TFBag extends BaseItem implements IBauble
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ResourceLocation[] getItemVariants()
     {
         String rl = ModInfo.MOD_ID + ":" + this.name;
@@ -630,6 +634,7 @@ public class TFBag extends BaseItem implements IBauble
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public ModelResourceLocation getModelLocation(ItemStack stack)
     {
         String variant = "locked=" + (bagIsOpenable(stack) ? "false" : "true") +
@@ -654,6 +659,7 @@ public class TFBag extends BaseItem implements IBauble
             this.variantName = variantName;
         }
 
+        @SideOnly(Side.CLIENT)
         public String getDisplayName()
         {
             return I18n.format(this.displayName);
@@ -721,6 +727,7 @@ public class TFBag extends BaseItem implements IBauble
             return this.name;
         }
 
+        @SideOnly(Side.CLIENT)
         public String getDisplayName()
         {
             return I18n.format("tfstorage.tooltip.item." + this.getName());
@@ -773,6 +780,7 @@ public class TFBag extends BaseItem implements IBauble
             return this.unlocName;
         }
 
+        @SideOnly(Side.CLIENT)
         public String getDisplayName()
         {
             return I18n.format(this.getUnlocName());

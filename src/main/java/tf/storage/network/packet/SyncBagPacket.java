@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tf.storage.TFStorage;
 import tf.storage.inventory.container.BagContainer;
 
@@ -84,6 +85,13 @@ public class SyncBagPacket implements IMessage
                 return null;
             }
 
+            handleClientSide(message);
+            return null;
+        }
+
+        @SideOnly(Side.CLIENT)
+        private void handleClientSide(final SyncBagPacket message)
+        {
             Minecraft.getMinecraft().addScheduledTask(new Runnable()
             {
                 public void run()
@@ -91,10 +99,9 @@ public class SyncBagPacket implements IMessage
                     processMessage(message);
                 }
             });
-
-            return null;
         }
 
+        @SideOnly(Side.CLIENT)
         protected void processMessage(final SyncBagPacket message)
         {
             EntityPlayer player = Minecraft.getMinecraft().player;

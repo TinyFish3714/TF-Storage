@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tf.storage.TFStorage;
 import tf.storage.block.TFChestBlock;
 import tf.storage.item.base.BaseItem;
@@ -78,11 +80,13 @@ public class ItemBlockStorage extends ItemBlock
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag advanced)
     {
         this.addTooltips(stack, list, TFStorage.proxy.isShiftKeyDown());
     }
 
+    @SideOnly(Side.CLIENT)
     public void addTooltips(ItemStack stack, List<String> list, boolean verbose)
     {
         BaseItem.addTranslatedTooltip(this.getTooltipName(stack) + ".tooltips", list, verbose);

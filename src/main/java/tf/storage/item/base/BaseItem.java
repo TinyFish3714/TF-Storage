@@ -14,6 +14,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tf.storage.TFStorage;
 import tf.storage.creativetab.CreativeTab;
 import tf.storage.core.ModInfo;
@@ -57,11 +59,13 @@ public class BaseItem extends Item
     /**
      * 自定义 addInformation() 方法，允许选择提示信息子集。
      */
+    @SideOnly(Side.CLIENT)
     public void addTooltipLines(ItemStack stack, EntityPlayer player, List<String> list, boolean verbose)
     {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<String> list, ITooltipFlag advanced)
     {
         ArrayList<String> tmpList = new ArrayList<String>();
@@ -106,6 +110,7 @@ public class BaseItem extends Item
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public static void addTranslatedTooltip(String key, List<String> list, boolean verbose, Object... args)
     {
         String translated = TFStorage.proxy.format(key, args);
@@ -128,6 +133,7 @@ public class BaseItem extends Item
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public void addTooltips(ItemStack stack, List<String> list, boolean verbose)
     {
         addTranslatedTooltip(this.getTranslationKey(stack) + ".tooltips", list, verbose);
@@ -152,11 +158,13 @@ public class BaseItem extends Item
         }
     }
 
+    @SideOnly(Side.CLIENT)
     public ResourceLocation[] getItemVariants()
     {
         return new ResourceLocation[] { ForgeRegistries.ITEMS.getKey(this) };
     }
 
+    @SideOnly(Side.CLIENT)
     public ModelResourceLocation getModelLocation(ItemStack stack)
     {
         return new ModelResourceLocation(this.getRegistryName(), "inventory");
