@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import tf.storage.core.ModCompat;
 import tf.storage.core.ModItems;
 import tf.storage.item.TFBag;
@@ -20,11 +21,6 @@ public class BaublesHelper {
             for (int i = 0; i < baublesInv.getSlots(); i++) {
                 ItemStack stack = baublesInv.getStackInSlot(i);
                 if (!stack.isEmpty() && stack.getItem() == ModItems.TF_BAG) {
-                    // Check if bag is openable logic duplicated here or accessible
-                    // Since bagIsOpenable is private in TFBag, we might need to expose it or duplicate logic.
-                    // Actually, TFBag.bagIsOpenable is private. We should make it public or package-private.
-                    // For now, let's assume we can access it if we make it package-private or public.
-                    // Or, we can just check the NBT directly here to avoid access issues.
                     if (isBagOpenable(stack)) {
                         return stack;
                     }
@@ -34,6 +30,14 @@ public class BaublesHelper {
             // Ignore
         }
         return ItemStack.EMPTY;
+    }
+
+    public static IItemHandler getBaublesInventory(EntityPlayer player) {
+        try {
+            return BaublesApi.getBaublesHandler(player);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static boolean isBagOpenable(ItemStack stack) {

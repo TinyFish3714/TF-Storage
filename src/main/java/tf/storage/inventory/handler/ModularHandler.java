@@ -5,6 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import tf.storage.compat.baubles.BaublesHelper;
+import tf.storage.core.ModCompat;
 import tf.storage.item.TFBag;
 import tf.storage.item.TFUnit;
 import tf.storage.util.StackHelper;
@@ -45,6 +47,17 @@ import tf.storage.util.CardHelper;
                 player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null) : null;
         if (hostInv != null && this.containerUUID != null)
         {
+            if (StackHelper.getItemStackByUUID(hostInv, this.containerUUID, "UUID").isEmpty() &&
+                ModCompat.isBaublesLoaded())
+            {
+                IItemHandler baublesInv = BaublesHelper.getBaublesInventory(player);
+                if (baublesInv != null &&
+                    StackHelper.getItemStackByUUID(baublesInv, this.containerUUID, "UUID").isEmpty() == false)
+                {
+                    hostInv = baublesInv;
+                }
+            }
+
             this.setHostInventory(hostInv, this.containerUUID);
         }
             
