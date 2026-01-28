@@ -12,14 +12,18 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import tf.storage.core.ModInfo;
 import tf.storage.inventory.container.base.BaseContainer;
+import tf.storage.inventory.container.base.LargeStackContainer;
 import tf.storage.util.TextFormatter;
 
 public class LargeStackGui extends BaseGui
 {
+    private static final ResourceLocation WIDGETS_TEXTURE = ModInfo.getGuiTexture("gui.widgets");
     protected final List<IItemHandler> scaledStackSizeTextInventories;
 
     public LargeStackGui(BaseContainer container, int xSize, int ySize, String textureName)
@@ -91,6 +95,22 @@ public class LargeStackGui extends BaseGui
                 this.drawTexturedModalRect(slotPosX, slotPosY, textureatlassprite, 16, 16);
                 GlStateManager.enableLighting();
                 flag1 = true;
+            }
+        }
+
+        // 渲染选中槽位的高亮（用于交换操作）
+        if (this.inventorySlots instanceof LargeStackContainer)
+        {
+            LargeStackContainer container = (LargeStackContainer) this.inventorySlots;
+            if (container.selectedSlot == slotIn.slotNumber)
+            {
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                this.mc.getTextureManager().bindTexture(WIDGETS_TEXTURE);
+                this.drawTexturedModalRect(slotPosX - 1, slotPosY - 1, 28, 0, 18, 18);
+                GlStateManager.enableDepth();
+                GlStateManager.enableLighting();
             }
         }
 

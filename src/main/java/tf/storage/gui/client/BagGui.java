@@ -61,7 +61,6 @@ public class BagGui extends LargeStackGui implements IButtonStateCallback
     private final int offsetXTier;
     private int firstMemoryCardSlotX;
     private int firstMemoryCardSlotY;
-    // private boolean hasActivePotionEffects; // 已移除：继承自 InventoryEffectRenderer
     private int lastGuiLeft;
     private int lastGuiTop;
     private final boolean baublesLoaded;
@@ -145,6 +144,14 @@ public class BagGui extends LargeStackGui implements IButtonStateCallback
             {
                 Slot slot = this.containerTFB.getSlot(i);
                 this.drawTexturedModalRect(this.guiLeft + slot.xPos - 1, this.guiTop + slot.yPos - 1, 46, 0, 18, 18);
+            }
+        }
+
+        if (this.invWithMemoryCards.getMemoryCardInventory().isAccessibleBy(this.player) == false)
+        {
+            for (int i = 0; i < this.numMemoryCardSlots; i++)
+            {
+                this.drawTexturedModalRect(this.firstMemoryCardSlotX - 1 + i * 18, this.firstMemoryCardSlotY - 1, 46, 0, 18, 18);
             }
         }
 

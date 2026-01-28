@@ -3,6 +3,8 @@ package tf.storage.inventory.handler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import tf.storage.item.TFBag;
 import tf.storage.item.TFUnit;
 import tf.storage.util.StackHelper;
@@ -32,23 +34,34 @@ import tf.storage.util.CardHelper;
                   allowCustomStackSizes, ((TFBag) containerStack.getItem()).getMaxMemoryCards(containerStack));
         }
         
-        public ModularHandler(ItemStack containerStack, EntityPlayer player, int mainInvSize,
-                                           boolean allowCustomStackSizes, int memoryCardInvSize)
+    public ModularHandler(ItemStack containerStack, EntityPlayer player, int mainInvSize,
+                                       boolean allowCustomStackSizes, int memoryCardInvSize)
+    {
+        super(containerStack, mainInvSize, 64, allowCustomStackSizes, "Items", player);
+
+        this.modularItemStack = containerStack;
+        this.containerUUID = NBTHelper.getUUIDFromItemStack(containerStack, "UUID", true);
+        IItemHandler hostInv = player != null ?
+                player.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null) : null;
+        if (hostInv != null && this.containerUUID != null)
         {
-            super(containerStack, mainInvSize, 64, allowCustomStackSizes, "Items", player);
-            
-            this.modularItemStack = containerStack;
+            this.setHostInventory(hostInv, this.containerUUID);
+        }
             
             this.memoryCardInventory = new ItemHandler(containerStack, memoryCardInvSize, 1, false, "MemoryCards") {
                 @Override
                 public boolean isItemValidForSlot(int slotNum, ItemStack stack) {
-                    if (stack.isEmpty()) {
+                    if (super.isItemValidForSlot(slotNum, stack) == false || stack.isEmpty()) {
                         return false;
                     }
                     return CardHelper.isTFUnit(stack);
                 }
             };
-            this.memoryCardInventory.readFromContainerItemStack();
+        if (hostInv != null && this.containerUUID != null)
+        {
+            this.memoryCardInventory.setHostInventory(hostInv, this.containerUUID);
+        }
+        this.memoryCardInventory.readFromContainerItemStack();
             
             this.readFromContainerItemStack();
         }
@@ -58,10 +71,15 @@ import tf.storage.util.CardHelper;
             return this.memoryCardInventory;
         }
         
-        public ItemStack getModularItemStack()
+    public ItemStack getModularItemStack()
+    {
+        if (this.containerUUID != null && this.hostInventory != null)
         {
-            return this.modularItemStack;
+            return StackHelper.getItemStackByUUID(this.hostInventory, this.containerUUID, "UUID");
         }
+
+        return this.modularItemStack;
+    }
     
         
         public void setModularItemStack(ItemStack stack)

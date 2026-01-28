@@ -38,6 +38,16 @@ public class CardSlot extends GenericSlot
             return false;
         }
 
+        if (this.getItemHandler() instanceof tf.storage.inventory.IItemHandlerSelective)
+        {
+            tf.storage.inventory.IItemHandlerSelective selective =
+                    (tf.storage.inventory.IItemHandlerSelective) this.getItemHandler();
+            if (selective.isItemValidForSlot(this.getSlotIndex(), stack) == false)
+            {
+                return false;
+            }
+        }
+
         // Only allow TFUnit type items
         return stack.getItem() instanceof TFUnit;
     }

@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -38,10 +37,10 @@ public class BagContainer extends LargeStackContainer
     private int craftingSlot = 0;
     
     private ItemStack lastMemoryCardStack = ItemStack.EMPTY;
+    private ItemStack modularStackLast = ItemStack.EMPTY;
     
     public int selectedMemoryCard = -1;
     
-    private int bagSlotIndex = -1;
 
     public BagContainer(EntityPlayer player, ItemStack containerStack)
     {
@@ -54,20 +53,6 @@ public class BagContainer extends LargeStackContainer
 
         this.addCustomInventorySlots();
         this.addPlayerInventorySlots(8, 174);
-        
-        this.findBagSlotIndex(containerStack);
-    }
-    
-    private void findBagSlotIndex(ItemStack bagStack)
-    {
-        for (int i = 0; i < this.inventorySlots.size(); ++i)
-        {
-            if (this.inventorySlots.get(i).getStack() == bagStack)
-            {
-                this.bagSlotIndex = i;
-                break;
-            }
-        }
     }
 
     @Override
@@ -200,39 +185,8 @@ public class BagContainer extends LargeStackContainer
     }
     
     @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
-        if (this.bagSlotIndex != -1)
-        {
-            if (this.bagSlotIndex < this.inventorySlots.size())
-            {
-                Slot slot = this.inventorySlots.get(this.bagSlotIndex);
-                if (slot.getStack() != this.inventoryItemWithMemoryCards.getModularItemStack())
-                {
-                    return false;
-                }
-            }
-        }
-        return super.canInteractWith(player);
-    }
-
-    @Override
     public ItemStack slotClick(int slotNum, int dragType, ClickType clickType, EntityPlayer player)
     {
-        if (slotNum >= 0 && slotNum == this.bagSlotIndex)
-        {
-            return ItemStack.EMPTY;
-        }
-        
-        if (clickType == ClickType.SWAP && dragType >= 0 && dragType < 9)
-        {
-             ItemStack stackInHotbar = player.inventory.getStackInSlot(dragType);
-             if (stackInHotbar == this.inventoryItemWithMemoryCards.getModularItemStack())
-             {
-                 return ItemStack.EMPTY;
-             }
-        }
-
         super.slotClick(slotNum, dragType, clickType, player);
 
         if (this.isClient == false && slotNum == this.craftingSlot)
@@ -277,28 +231,38 @@ public class BagContainer extends LargeStackContainer
     {
         if (!this.player.getEntityWorld().isRemote)
         {
+            int previousSelectedIndex = this.selectedMemoryCard;
             ItemStack modularStack = this.inventoryItemWithMemoryCards.getModularItemStack();
+            boolean containerChanged = modularStack != this.modularStackLast;
+
             ItemStack currentCard = this.inventoryItemWithMemoryCards.getSelectedMemoryCardStack();
             int currentSelectedIndex = this.inventoryItemWithMemoryCards.getSelectedMemoryCardIndex();
 
-            boolean containerChanged = !ItemStack.areItemStacksEqual(modularStack, this.getContainerItem());
             boolean cardChanged = !ItemStack.areItemStacksEqual(currentCard, this.lastMemoryCardStack);
-            boolean selectionChanged = this.selectedMemoryCard != currentSelectedIndex;
+            boolean selectionChanged = previousSelectedIndex != currentSelectedIndex;
 
             if (containerChanged || cardChanged || selectionChanged)
             {
-                if (containerChanged) {
+                if (containerChanged)
+                {
                     this.inventoryItemWithMemoryCards.readFromContainerItemStack();
-                } else {
+                    this.modularStackLast = modularStack;
+                }
+                else
+                {
                     this.inventoryItemWithMemoryCards.readFromSelectedMemoryCardStack();
                 }
-                
+
+                currentCard = this.inventoryItemWithMemoryCards.getSelectedMemoryCardStack();
+                currentSelectedIndex = this.inventoryItemWithMemoryCards.getSelectedMemoryCardIndex();
+                selectionChanged = previousSelectedIndex != currentSelectedIndex;
+
                 this.lastMemoryCardStack = currentCard.copy();
                 this.selectedMemoryCard = currentSelectedIndex;
 
                 this.markAllSlotsDirty();
             }
-            
+
             if (selectionChanged)
             {
                 for (int i = 0; i < this.listeners.size(); ++i)

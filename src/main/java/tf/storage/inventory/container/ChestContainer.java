@@ -62,7 +62,6 @@ public class ChestContainer extends LargeStackContainer
 
         for (int i = 0; i < 4; i++)
         {
-            // 已恢复为标准 CardSlot，移除了带锁定检查的匿名类
             this.addSlotToContainer(new CardSlot(this.tetfc.getMemoryCardInventory(), i,
                     memCardPosX + i * 18, memCardPosY));
         }

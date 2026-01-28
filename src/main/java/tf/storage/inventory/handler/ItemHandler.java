@@ -14,6 +14,8 @@ public class ItemHandler extends BasicHandler
 {
     protected ItemStack containerStack = ItemStack.EMPTY;
     protected boolean isRemote;
+    protected UUID containerUUID;
+    protected IItemHandler hostInventory;
 
     public ItemHandler(ItemStack containerStack, int invSize, int stackLimit, boolean allowCustomStackSizes,
             String tagName, EntityPlayer player)
@@ -22,6 +24,8 @@ public class ItemHandler extends BasicHandler
 
         this.containerStack = containerStack;
         this.isRemote = (player != null && player.getEntityWorld().isRemote);
+        this.containerUUID = null;
+        this.hostInventory = null;
     }
 
     public ItemHandler(ItemStack containerStack, int invSize, int stackLimit, boolean allowCustomStackSizes,
@@ -43,7 +47,22 @@ public class ItemHandler extends BasicHandler
      */
     public ItemStack getContainerItemStack()
     {
+        if (this.containerUUID != null && this.hostInventory != null)
+        {
+            return StackHelper.getItemStackByUUID(this.hostInventory, this.containerUUID, "UUID");
+        }
+
         return this.containerStack;
+    }
+
+    /**
+     * Sets the host inventory and the UUID of the container ItemStack, so that the correct
+     * container ItemStack can be fetched from the host inventory.
+     */
+    public void setHostInventory(IItemHandler inv, UUID uuid)
+    {
+        this.hostInventory = inv;
+        this.containerUUID = uuid;
     }
 
     /**
@@ -98,10 +117,26 @@ public class ItemHandler extends BasicHandler
         return this.getContainerItemStack().isEmpty() == false;
     }
 
+    public boolean isAccessibleBy(Entity entity)
+    {
+        return this.isCurrentlyAccessible();
+    }
+
     @Override
     public int getInventoryStackLimit()
     {
         return this.getInventoryStackLimitFromContainerStack(this.getContainerItemStack());
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int slot)
+    {
+        if (this.isCurrentlyAccessible() == false)
+        {
+            return ItemStack.EMPTY;
+        }
+
+        return super.getStackInSlot(slot);
     }
 
     public int getInventoryStackLimitFromContainerStack(ItemStack stack)
@@ -122,7 +157,13 @@ public class ItemHandler extends BasicHandler
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return this.getContainerItemStack().isEmpty() == false && this.isCurrentlyAccessible();
+        return this.isCurrentlyAccessible();
+    }
+
+    @Override
+    public boolean canExtractFromSlot(int slot)
+    {
+        return this.isCurrentlyAccessible();
     }
 
     @Override

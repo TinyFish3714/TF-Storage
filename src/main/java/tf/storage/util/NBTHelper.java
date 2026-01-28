@@ -176,12 +176,6 @@ public class NBTHelper
 
         if (uuid == null && create)
         {
-            if (tf.storage.TFStorage.proxy.getClientPlayer() != null &&
-                tf.storage.TFStorage.proxy.getClientPlayer().getEntityWorld().isRemote)
-            {
-                return null;
-            }
-
             uuid = UUID.randomUUID();
             nbt.setUniqueId("UUID", uuid);
         }

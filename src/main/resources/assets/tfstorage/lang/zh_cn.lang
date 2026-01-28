@@ -15,24 +15,14 @@ item.tfstorage.tfunit_items_2.name=TF单元 (10B)
 item.tfstorage.tfunit_items_3.name=TF单元 (12B)
 item.tfstorage.tfbag_0.name=TF 包
 item.tfstorage.tfbag_1.name=TF 包 (大)
-
 item.tfstorage.tfunit_items_0.tooltips=- 可以存储 2^(字节数) = 一组64物品
 item.tfstorage.tfunit_items_1.tooltips=- 可以存储 2^(字节数) = 一组256物品
 item.tfstorage.tfunit_items_2.tooltips=- 可以存储 2^(字节数) = 一组1024物品
 item.tfstorage.tfunit_items_3.tooltips=- 可以存储 2^(字节数) = 一组4096物品
-
 item.tfstorage.tfbag.tooltips=- 打开物品栏时这个背包会被打开|lf  物品栏里可以看到TF包|lf- 将使用发现的第一个包 (先匹配快捷栏，然后是从物品栏最左上开始匹配) |lf- 潜行时打开常规物品栏
-
 tfstorage.gui.label.bag.disabled=包被禁用
 tfstorage.gui.label.bag.enabled=包被启用
-#================================================
-# TF 包的区域操作功能 (原区域锁定)
-#================================================
-
-# 区域操作启用时的提示（允许快捷操作操作）
 tfstorage.gui.label.regionop.enabled=§a区域操作：开启§r|lf§7此区域的快捷操作§a已启用§7
-
-# 区域操作禁用时的提示（阻止快捷操作操作）
 tfstorage.gui.label.regionop.disabled=§c区域操作：关闭§r|lf§7此区域的快捷操作§c已禁用§7
 tfstorage.gui.label.fillstacks=填满所有存在的物品栏
 tfstorage.gui.label.tfbag.shiftclick.doubletapshift=Shift-单击行为:|lf连按两下shift切换
@@ -67,8 +57,6 @@ tfstorage.tooltip.item.yes=是
 tfstorage.tooltip.item.no=无
 tfstorage.tooltip.item.tfunit.nodata=没有数据
 tfstorage.tooltip.item.tfunit.noitems=没有物品
-
-# 代码中使用但之前缺失的翻译键
 tfstorage.tooltip.item.selectedmemorycard.notinstalled=未安装
 tfstorage.tooltip.item.nomemorycards=没有安装TF单元
 tfstorage.tooltip.item.matching=匹配

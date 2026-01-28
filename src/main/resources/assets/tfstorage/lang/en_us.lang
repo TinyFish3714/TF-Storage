@@ -15,24 +15,14 @@ item.tfstorage.tfunit_items_2.name=TF Unit (10B)
 item.tfstorage.tfunit_items_3.name=TF Unit (12B)
 item.tfstorage.tfbag_0.name=TF Bag
 item.tfstorage.tfbag_1.name=TF Bag (Large)
-
 item.tfstorage.tfunit_items_0.tooltips=- Can store items in stacks up to 2^(bits) = 64
 item.tfstorage.tfunit_items_1.tooltips=- Can store items in stacks up to 2^(bits) = 256
 item.tfstorage.tfunit_items_2.tooltips=- Can store items in stacks up to 2^(bits) = 1024
 item.tfstorage.tfunit_items_3.tooltips=- Can store items in stacks up to 2^(bits) = 4096
-
 item.tfstorage.tfbag.tooltips=- A bag that opens when you open the regular inventory|lf  and have an enabled TF Bag in your inventory|lf- The first bag found (= hotbar first, then top-left-most first) will be used|lf- Sneak while opening the inventory to open the regular inventory instead
-
 tfstorage.gui.label.bag.disabled=Bag disabled
 tfstorage.gui.label.bag.enabled=Bag enabled
-#================================================
-# Region Operation Feature for TF Bag (Renamed from Region Lock)
-#================================================
-
-# Tooltip for the Region Operation button when it's enabled (quick actions are allowed)
 tfstorage.gui.label.regionop.enabled=§aRegion Operation: On§r|lf§7Quick actions are §aenabled§7 for this area.
-
-# Tooltip for the Region Operation button when it's disabled (quick actions are blocked)
 tfstorage.gui.label.regionop.disabled=§cRegion Operation: Off§r|lf§7Quick actions are §cdisabled§7 for this area.
 tfstorage.gui.label.fillstacks=Fill all existing stacks
 tfstorage.gui.label.tfbag.shiftclick.doubletapshift=Shift-click behaviour:|lfdouble-tap shift to toggle
@@ -64,8 +54,6 @@ tfstorage.tooltip.item.yes=yes
 tfstorage.tooltip.item.no=no
 tfstorage.tooltip.item.tfunit.nodata=No data
 tfstorage.tooltip.item.tfunit.noitems=No items
-
-# Keys used in code but were previously missing
 tfstorage.tooltip.item.selectedmemorycard.notinstalled=Not installed
 tfstorage.tooltip.item.nomemorycards=No TF units installed
 tfstorage.tooltip.item.disabled=Disabled

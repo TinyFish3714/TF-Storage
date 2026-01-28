@@ -168,6 +168,27 @@ public class StackHelper
         return movedAll ? InvResult.MOVED_ALL : (movedSome ? InvResult.MOVED_SOME : InvResult.MOVED_NOTHING);
     }
 
+    /**
+     * Get the ItemStack that has the given UUID stored in its NBT.
+     * If containerTagName is not null, then the UUID is read from a compound tag by that name.
+     */
+    public static ItemStack getItemStackByUUID(IItemHandler inv, UUID uuid, @Nullable String containerTagName)
+    {
+        final int invSize = inv.getSlots();
+
+        for (int slot = 0; slot < invSize; slot++)
+        {
+            ItemStack stack = inv.getStackInSlot(slot);
+
+            if (stack.isEmpty() == false && uuid.equals(NBTHelper.getUUIDFromItemStack(stack, containerTagName, false)))
+            {
+                return stack;
+            }
+        }
+
+        return ItemStack.EMPTY;
+    }
+
 
 
     public static ItemStack tryInsertItemStackToInventoryWithinSlotRange(IItemHandler inv, @Nonnull ItemStack stackIn, SlotRange slotRange, boolean simulate)
