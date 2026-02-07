@@ -280,6 +280,7 @@ public class TFBag extends BaseItem implements IBauble
             return;
         }
 
+        // Check player inventory first
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack bagStack = player.inventory.getStackInSlot(i);
             
@@ -328,6 +329,65 @@ public class TFBag extends BaseItem implements IBauble
                         }
                     }
                 }
+            }
+        }
+
+        // Check Baubles inventory if loaded
+        if (ModCompat.isBaublesLoaded()) {
+            try {
+                baubles.api.cap.IBaublesItemHandler baublesInv = baubles.api.BaublesApi.getBaublesHandler(player);
+                for (int i = 0; i < baublesInv.getSlots(); i++) {
+                    ItemStack bagStack = baublesInv.getStackInSlot(i);
+                    
+                    if (!bagStack.isEmpty() && bagStack.getItem() == ModItems.TF_BAG && TFBag.bagIsOpenable(bagStack)) {
+                        PickupMode mode = PickupMode.fromStack(bagStack);
+                        
+                        if (mode == PickupMode.NONE) {
+                            continue;
+                        }
+
+                        ModularHandler bagInv = getInventoryForBag(bagStack, player);
+                        if (bagInv == null) {
+                            continue;
+                        }
+
+                        boolean shouldPickup = false;
+                        if (mode == PickupMode.ALL) {
+                            shouldPickup = true;
+                        } else if (mode == PickupMode.MATCHING) {
+                            if (StackHelper.getSlotOfFirstMatchingItemStack(bagInv, itemToPick) != -1) {
+                                shouldPickup = true;
+                            }
+                        }
+
+                        if (shouldPickup) {
+                            ItemStack originalStack = itemToPick.copy();
+                            
+                            ItemStack remainder = net.minecraftforge.items.ItemHandlerHelper.insertItemStacked(bagInv, itemToPick, false);
+                            
+                            if (remainder.getCount() < originalStack.getCount()) {
+                                
+                                int pickedUpAmount = originalStack.getCount() - remainder.getCount();
+                                
+                                player.onItemPickup(entityItem, pickedUpAmount);
+                                if (entityItem.isSilent() == false) {
+                                     player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                                }
+
+                                if (remainder.isEmpty()) {
+                                    entityItem.setDead();
+                                    event.setCanceled(true);
+                                    return;
+                                } else {
+                                    entityItem.setItem(remainder);
+                                    itemToPick = remainder;
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                // Ignore Baubles errors
             }
         }
     }

@@ -30,9 +30,19 @@ repositories {
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
-    // Cleanroom Maven (Mirror for many 1.12 mods)
+    // Cleanroom Maven (Mirror for many 1.12 mods) - may be down, try alternative
+    // maven {
+    //     url "https://maven.cleanroommc.com"
+    // }
+    // Alternative MCP repository
     maven {
-        url "https://maven.cleanroommc.com"
+        url "https://maven.minecraftforge.net"
+    }
+    maven {
+        url "https://libraries.minecraft.net/"
+    }
+    maven {
+        url "https://repo.spongepowered.org/maven"
     }
     // 阿里云镜像站 - 加速项目依赖下载
     maven {

@@ -94,6 +94,7 @@ public class PlayerEvents {
     }
 
     private static void tryReplenishSlot(EntityPlayer player, int slot, ItemStack depletedStack) {
+        // Check player inventory first
         for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
             ItemStack bagStack = player.inventory.getStackInSlot(i);
             if (!bagStack.isEmpty() && bagStack.getItem() == ModItems.TF_BAG) {
@@ -120,6 +121,43 @@ public class PlayerEvents {
                         }
                     }
                 }
+            }
+        }
+
+        // Check Baubles inventory if loaded
+        if (tf.storage.core.ModCompat.isBaublesLoaded()) {
+            try {
+                baubles.api.cap.IBaublesItemHandler baublesInv = baubles.api.BaublesApi.getBaublesHandler(player);
+                for (int i = 0; i < baublesInv.getSlots(); i++) {
+                    ItemStack bagStack = baublesInv.getStackInSlot(i);
+                    if (!bagStack.isEmpty() && bagStack.getItem() == ModItems.TF_BAG) {
+                        RestockMode mode = RestockMode.fromStack(bagStack);
+
+                        if (mode == RestockMode.ON) {
+                            ModularHandler bagInv = TFBag.getInventoryForBag(bagStack, player);
+                            if (bagInv != null) {
+                                int sourceSlot = StackHelper.getSlotOfFirstMatchingItemStack(bagInv, depletedStack);
+
+                                if (sourceSlot == -1 && depletedStack.isItemStackDamageable()) {
+                                    sourceSlot = findSlotWithSameItemIgnoreDamage(bagInv, depletedStack);
+                                    if (sourceSlot == -1) {
+                                        sourceSlot = findSlotWithEquivalentItem(bagInv, depletedStack);
+                                    }
+                                }
+
+                                if (sourceSlot != -1) {
+                                    ItemStack stackToReplenish = bagInv.extractItem(sourceSlot, depletedStack.getMaxStackSize(), false);
+                                    if (!stackToReplenish.isEmpty()) {
+                                        player.inventory.setInventorySlotContents(slot, stackToReplenish);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                // Ignore Baubles errors
             }
         }
     }
