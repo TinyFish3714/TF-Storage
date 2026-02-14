@@ -334,6 +334,12 @@ public class BaseContainer extends Container
             return false;
         }
 
+        // 特殊处理 ResultSlot（合成结果格子）的 Shift 点击
+        if (slot instanceof ResultSlot)
+        {
+            return this.transferStackFromResultSlot(player, slotNum);
+        }
+
         if (this.playerArmorSlots.contains(slotNum) || this.playerOffhandSlots.contains(slotNum))
         {
             return this.transferStackToSlotRange(player, slotNum, this.playerMainSlotsIncHotbar, false);
@@ -344,6 +350,79 @@ public class BaseContainer extends Container
         }
 
         return this.transferStackToSlotRange(player, slotNum, this.playerMainSlotsIncHotbar, true);
+    }
+
+    /**
+     * 处理合成结果格子的 Shift 点击转移
+     * 正确处理合成消耗和结果更新，以支持连续合成
+     */
+    protected boolean transferStackFromResultSlot(EntityPlayer player, int slotNum)
+    {
+        Slot slot = this.getSlot(slotNum);
+
+        if ((slot instanceof ResultSlot) == false)
+        {
+            return false;
+        }
+
+        ItemStack itemstack = slot.getStack();
+
+        if (itemstack.isEmpty())
+        {
+            return false;
+        }
+
+        // Step 1: 复制一份用于模拟转移检查
+        ItemStack stackToTransfer = itemstack.copy();
+        int amount = Math.min(stackToTransfer.getCount(), stackToTransfer.getMaxStackSize());
+        stackToTransfer.setCount(amount);
+
+        // Step 2: 模拟合并检查是否能转移 (simulate=true)
+        // 先尝试移动到玩家背包（主背包+快捷栏）
+        stackToTransfer = this.mergeItemStack(stackToTransfer, this.playerMainSlotsIncHotbar, false, true);
+
+        // 如果背包满了，尝试移动到自定义库存（如TFbag）
+        if (stackToTransfer.isEmpty() == false)
+        {
+            stackToTransfer = this.mergeItemStack(stackToTransfer, this.customInventorySlots, false, true);
+        }
+
+        // Step 3: 计算实际可转移数量
+        if (stackToTransfer.isEmpty() == false)
+        {
+            // 无法完全转移，计算实际可转移数量
+            amount -= stackToTransfer.getCount();
+            if (amount == 0)
+            {
+                return false; // 完全无法转移
+            }
+        }
+
+        // Step 4: 从槽位中取出实际转移数量的物品
+        ItemStack takenStack = slot.decrStackSize(amount);
+        
+        // Step 5: 调用 onTake 消耗合成材料并更新合成结果
+        slot.onTake(player, takenStack);
+
+        this.markSlotDirty(slotNum);
+
+        // Step 6: 实际合并物品到目标槽位 (simulate=false)
+        takenStack = this.mergeItemStack(takenStack, this.playerMainSlotsIncHotbar, false, false);
+
+        if (takenStack.isEmpty() == false)
+        {
+            takenStack = this.mergeItemStack(takenStack, this.customInventorySlots, false, false);
+        }
+
+        // Step 7: 如果还有剩余物品，丢弃给玩家防止物品丢失
+        if (takenStack.isEmpty() == false)
+        {
+            player.dropItem(takenStack, false);
+            TFStorage.logger.warn("在 '{}' 中合并所有物品失败，已丢弃给玩家。",
+                this.getClass().getSimpleName());
+        }
+
+        return true;
     }
 
     protected boolean transferStackFromPlayerMainInventory(EntityPlayer player, int slotNum)
