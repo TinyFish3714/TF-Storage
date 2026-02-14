@@ -110,6 +110,10 @@ public class ResultSlot extends GenericSlot
             }
         }
 
+        // 关键修复：通知合成矩阵已更改，触发重新计算合成结果
+        // 这确保 Shift 点击连续合成时，新的合成结果能正确显示
+        this.craftMatrix.markDirty();
+
         return stack;
     }
 }
