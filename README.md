@@ -1,14 +1,10 @@
-# TF Storage (TF存储)
+# TF Storage (TF存储) - 1.12.2
 
 ![License](https://img.shields.io/badge/License-LGPLv3-blue.svg)
+![Minecraft](https://img.shields.io/badge/Minecraft-1.12.2-green.svg)
+![Status](https://img.shields.io/badge/Status-Legacy-red.svg)
 
-> **⚠️ Notice / 声明**
->
-> This project is a **derivative work** based on [Ender Utilities](https://github.com/maruohon/enderutilities).
-> 本项目是基于 [Ender Utilities](https://github.com/maruohon/enderutilities) 的派生作品。
->
-> Original code is Copyright (C) maruohon and contributors.
-> Refactored and modified by **TinyFish3714**.
+> 📥 **下载模组 / Download**: [Modrinth](https://modrinth.com/mod/tf-storage)
 
 ---
 
@@ -60,22 +56,15 @@ TF Storage 旨在与其他模组完美协作：
 ## 🛠️ Installation & Compiling / 安装与编译
 
 ### Requirements
-*   Minecraft 1.12.2 (Referencing original version)
-*   Forge
+*   Minecraft 1.12.2
+*   Forge 14.23.x
+*   Java 8
 
 ### How to Build
 1.  Clone this repository.
-2.  Open a terminal in the repo folder.
+2.  Switch to `1.12.2` branch.
 3.  Run `gradlew build`.
 4.  Find the jar file in `build/libs/`.
-
-## 🗓️ Future Plans / 未来计划
-
-We are currently focusing on the stability and optimization of the 1.12.2 version.
-Plans are in place to migrate to modern Minecraft versions (e.g., 1.20+) in the future. Stay tuned!
-
-目前专注于 1.12.2 版本的稳定与优化。
-未来计划迁移至 Minecraft 高版本（如 1.20+），敬请期待！
 
 ## 📄 License / 许可协议
 
@@ -95,4 +84,5 @@ Please see the `LICENSE.txt` file for the full license text.
 ## 👥 Credits / 致谢
 
 *   **Original Author**: [maruohon](https://github.com/maruohon) (Creator of Ender Utilities)
-*   **Contributors**: All contributors to the original project.
+*   **TF Storage Author**: [TinyFish3714](https://github.com/TinyFish3714)
+*   **Contributors**: All contributors to the original Ender Utilities project.
