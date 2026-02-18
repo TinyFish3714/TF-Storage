@@ -1,0 +1,1 @@
+{"type": "minecraft:crafting_shaped", "pattern": ["GEG", "P0P", "GEG"], "key": {"G": {"item": "minecraft:gold_ingot"}, "E": {"item": "tfstorage:edcore"}, "P": {"item": "minecraft:ender_pearl"}, "0": {"item": "tfstorage:tf_chest_0"}}, "result": {"item": "tfstorage:tf_chest_1", "count": 1}}

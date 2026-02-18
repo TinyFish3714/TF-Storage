@@ -1,0 +1,1 @@
+{"type": "tfstorage:preserve_nbt", "category": "misc", "pattern": ["DSD", "T0T", "NSN"], "key": {"D": {"item": "minecraft:diamond_block"}, "S": {"item": "minecraft:nether_star"}, "T": {"item": "tfstorage:tfcore"}, "0": {"item": "tfstorage:tfunit_10b"}, "N": {"item": "minecraft:netherite_block"}}, "result": {"item": "tfstorage:tfunit_12b", "count": 1}}

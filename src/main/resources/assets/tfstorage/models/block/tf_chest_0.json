@@ -1,0 +1,8 @@
+{
+  "parent": "tfstorage:block/tf_chest_base",
+  "textures": {
+    "top": "tfstorage:block/tf_chest_0_top",
+    "front": "tfstorage:block/tf_chest_0_front",
+    "side": "tfstorage:block/tf_chest_0_side"
+  }
+}

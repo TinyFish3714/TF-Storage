@@ -1,0 +1,34 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
+        maven {
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
+        }
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
+}
+
+if (file('Curios-1.20.x').exists()) {
+    include 'curios'
+    project(':curios').projectDir = file('Curios-1.20.x')
+}
+
+def jeiDir = file('JustEnoughItems-1.20.1')
+if (jeiDir.exists() && providers.gradleProperty('jei_include_build').isPresent()) {
+    def mcVersion = providers.gradleProperty('minecraft_version').getOrElse('1.20.1')
+    includeBuild(jeiDir) {
+        dependencySubstitution {
+            substitute module("mezz.jei:jei-${mcVersion}-common-api") using project(":CommonApi")
+            substitute module("mezz.jei:jei-${mcVersion}-forge-api") using project(":ForgeApi")
+            substitute module("mezz.jei:jei-${mcVersion}-forge") using project(":Forge")
+        }
+    }
+}

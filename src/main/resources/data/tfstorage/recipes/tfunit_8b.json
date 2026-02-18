@@ -1,0 +1,1 @@
+{"type": "tfstorage:preserve_nbt", "category": "misc", "pattern": ["GEG", "P6P", "IEI"], "key": {"G": {"item": "minecraft:gold_ingot"}, "E": {"item": "tfstorage:edcore"}, "P": {"item": "minecraft:ender_pearl"}, "I": {"item": "minecraft:iron_ingot"}, "6": {"item": "tfstorage:tfunit_6b"}}, "result": {"item": "tfstorage:tfunit_8b", "count": 1}}

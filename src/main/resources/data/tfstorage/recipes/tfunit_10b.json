@@ -1,0 +1,1 @@
+{"type": "tfstorage:preserve_nbt", "category": "misc", "pattern": ["DED", "E8E", "DTD"], "key": {"D": {"item": "minecraft:diamond"}, "E": {"item": "tfstorage:edcore"}, "8": {"item": "tfstorage:tfunit_8b"}, "T": {"item": "tfstorage:tfcore"}}, "result": {"item": "tfstorage:tfunit_10b", "count": 1}}

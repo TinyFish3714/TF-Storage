@@ -1,0 +1,2 @@
+文件夹
+{"type": "minecraft:crafting_shaped", "pattern": ["DED", "E2E", "NEN"], "key": {"D": {"item": "minecraft:diamond_block"}, "E": {"item": "tfstorage:edcore"}, "2": {"item": "tfstorage:tf_chest_2"}, "N": {"item": "minecraft:netherite_ingot"}}, "result": {"item": "tfstorage:tf_chest_3", "count": 1}}

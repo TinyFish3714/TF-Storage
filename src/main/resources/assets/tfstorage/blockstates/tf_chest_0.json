@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "tfstorage:block/tf_chest_0" },
+    "facing=south": { "model": "tfstorage:block/tf_chest_0", "y": 180 },
+    "facing=west": { "model": "tfstorage:block/tf_chest_0", "y": 270 },
+    "facing=east": { "model": "tfstorage:block/tf_chest_0", "y": 90 }
+  }
+}
