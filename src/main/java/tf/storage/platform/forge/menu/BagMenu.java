@@ -289,7 +289,11 @@ public class BagMenu extends BaseMenu {
         if (id == 0) {
             this.selectedMemoryCard = value;
             this.inventoryItemWithMemoryCards.cachedSelectedIndex = value;
-            this.inventoryItemWithMemoryCards.readFromContainerItemStack();
+            if (this.player.level().isClientSide) {
+                this.inventoryItemWithMemoryCards.readFromSelectedMemoryCardStack();
+            } else {
+                this.inventoryItemWithMemoryCards.readFromContainerItemStack();
+            }
             this.markAllSlotsDirty();
         }
     }
