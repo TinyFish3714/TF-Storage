@@ -502,7 +502,13 @@ public class StackHelper
 
     private static void sortInventoryInternal(IItemHandlerModifiable inv, SlotRange range)
     {
+        final int firstSlot = Math.max(0, range.first);
         final int lastSlot = Math.min(range.lastInc, inv.getSlots() - 1);
+
+        if (firstSlot > lastSlot)
+        {
+            return;
+        }
         
         List<ItemStack> backupSnapshot = new ArrayList<>();
         for (int i = 0; i < inv.getSlots(); i++)
@@ -515,7 +521,7 @@ public class StackHelper
         {
             java.util.Map<ItemType, Integer> countMap = new java.util.LinkedHashMap<>();
 
-            for (int i = range.first; i <= lastSlot; i++)
+            for (int i = firstSlot; i <= lastSlot; i++)
             {
                 ItemStack stack = inv.getStackInSlot(i);
                 if (!stack.isEmpty())
@@ -547,12 +553,12 @@ public class StackHelper
             blocks.sort(comparator);
             items.sort(comparator);
 
-            for (int i = range.first; i <= lastSlot; i++)
+            for (int i = firstSlot; i <= lastSlot; i++)
             {
                 inv.setStackInSlot(i, ItemStack.EMPTY);
             }
 
-            int currentSlot = range.first;
+            int currentSlot = firstSlot;
             currentSlot = fillSortedItems(inv, blocks, countMap, currentSlot, lastSlot);
             fillSortedItems(inv, items, countMap, currentSlot, lastSlot);
         }

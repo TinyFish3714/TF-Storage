@@ -1,5 +1,6 @@
 package tf.storage.inventory.container;
 
+import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -20,6 +21,7 @@ import tf.storage.inventory.wrapper.ResultWrapper;
 import tf.storage.item.TFBag.ShiftMode;
 import tf.storage.util.StackHelper;
 import tf.storage.util.CardHelper;
+import tf.storage.util.NBTHelper;
 
 public class BagContainer extends LargeStackContainer
 {
@@ -38,6 +40,7 @@ public class BagContainer extends LargeStackContainer
     
     private ItemStack lastMemoryCardStack = ItemStack.EMPTY;
     private ItemStack modularStackLast = ItemStack.EMPTY;
+    private final UUID hostBagUUID;
     
     public int selectedMemoryCard = -1;
     
@@ -50,6 +53,7 @@ public class BagContainer extends LargeStackContainer
         this.craftMatrixWrapper = new InvWrapper(this.craftMatrix);
 
         this.selectedMemoryCard = this.inventoryItemWithMemoryCards.getSelectedMemoryCardIndex();
+        this.hostBagUUID = NBTHelper.getUUIDFromItemStack(containerStack, "UUID", false);
 
         this.addCustomInventorySlots();
         this.addPlayerInventorySlots(8, 174);
@@ -187,6 +191,11 @@ public class BagContainer extends LargeStackContainer
     @Override
     public ItemStack slotClick(int slotNum, int dragType, ClickType clickType, EntityPlayer player)
     {
+        if (this.isProtectedSlotInteraction(slotNum, clickType, player))
+        {
+            return ItemStack.EMPTY;
+        }
+
         super.slotClick(slotNum, dragType, clickType, player);
 
         if (this.isClient == false && slotNum == this.craftingSlot)
@@ -196,6 +205,24 @@ public class BagContainer extends LargeStackContainer
         }
 
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    protected boolean transferStackFromSlot(EntityPlayer player, int slotNum)
+    {
+        if (slotNum >= 0 && slotNum < this.inventorySlots.size())
+        {
+            GenericSlot slot = this.getSlotItemHandler(slotNum);
+            if (slot != null && slot.getHasStack())
+            {
+                if (this.isHostBagSlot(slot) || this.isSelectedMemoryCardSlot(slot))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return super.transferStackFromSlot(player, slotNum);
     }
 
     @Override
@@ -263,6 +290,19 @@ public class BagContainer extends LargeStackContainer
                 this.markAllSlotsDirty();
             }
 
+            if (this.hostBagUUID != null && modularStack.isEmpty())
+            {
+                this.player.closeScreen();
+                return;
+            }
+
+            if (previousSelectedIndex == currentSelectedIndex && previousSelectedIndex >= 0 &&
+                !this.lastMemoryCardStack.isEmpty() && currentCard.isEmpty())
+            {
+                this.player.closeScreen();
+                return;
+            }
+
             if (selectionChanged)
             {
                 for (int i = 0; i < this.listeners.size(); ++i)
@@ -273,6 +313,108 @@ public class BagContainer extends LargeStackContainer
             }
         }
         super.detectAndSendChanges();
+    }
+
+    private boolean isProtectedSlotInteraction(int slotNum, ClickType clickType, EntityPlayer player)
+    {
+        if (slotNum < 0 || slotNum >= this.inventorySlots.size())
+        {
+            return false;
+        }
+
+        GenericSlot slot = this.getSlotItemHandler(slotNum);
+        if (slot == null || !slot.getHasStack())
+        {
+            return false;
+        }
+
+        if (this.isHostBagSlot(slot))
+        {
+            switch (clickType)
+            {
+                case PICKUP:
+                case QUICK_MOVE:
+                case THROW:
+                case QUICK_CRAFT:
+                case SWAP:
+                case PICKUP_ALL:
+                case CLONE:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        if (this.isSelectedMemoryCardSlot(slot))
+        {
+            switch (clickType)
+            {
+                case QUICK_MOVE:
+                case THROW:
+                case QUICK_CRAFT:
+                case SWAP:
+                case PICKUP_ALL:
+                case CLONE:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isProtectedContainerSlot(int slotNum)
+    {
+        if (slotNum < 0 || slotNum >= this.inventorySlots.size())
+        {
+            return false;
+        }
+
+        GenericSlot slot = this.getSlotItemHandler(slotNum);
+        if (slot == null || !slot.getHasStack())
+        {
+            return false;
+        }
+
+        if (this.isHostBagSlot(slot))
+        {
+            return true;
+        }
+
+        return this.isSelectedMemoryCardSlot(slot);
+    }
+
+    private boolean isHostBagSlot(GenericSlot slot)
+    {
+        if (this.hostBagUUID == null)
+        {
+            return false;
+        }
+
+        if (slot.getItemHandler() != this.playerInv)
+        {
+            return false;
+        }
+
+        ItemStack stack = slot.getStack();
+        return !stack.isEmpty() && this.hostBagUUID.equals(NBTHelper.getUUIDFromItemStack(stack, "UUID", false));
+    }
+
+    private boolean isSelectedMemoryCardSlot(GenericSlot slot)
+    {
+        int selected = this.inventoryItemWithMemoryCards.getSelectedMemoryCardIndex();
+        if (selected < 0)
+        {
+            return false;
+        }
+
+        if (slot.getItemHandler() != this.inventoryItemWithMemoryCards.getMemoryCardInventory())
+        {
+            return false;
+        }
+
+        return slot.getSlotIndex() == selected;
     }
 
     @Override

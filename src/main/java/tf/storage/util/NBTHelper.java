@@ -554,8 +554,30 @@ public class NBTHelper
             @Nonnull String tagName)
     {
         NBTTagCompound nbt = getRootCompoundTag(containerStack, true);
-        writeItemsToTag(nbt, items, tagName);
+        NBTTagList newTagList = createTagListForItems(items);
+        NBTTagList oldTagList = nbt.getTagList(tagName, Constants.NBT.TAG_COMPOUND);
+        int visibleSlots = items.size();
 
+        for (int i = 0; i < oldTagList.tagCount(); i++)
+        {
+            NBTTagCompound tag = oldTagList.getCompoundTagAt(i);
+            int slotNum = tag.getShort("Slot");
+
+            if (slotNum >= visibleSlots)
+            {
+                newTagList.appendTag(tag.copy());
+            }
+        }
+
+        if (newTagList.tagCount() > 0)
+        {
+            nbt.setTag(tagName, newTagList);
+        }
+        else
+        {
+            nbt.removeTag(tagName);
+        }
+ 
         setRootCompoundTag(containerStack, nbt);
     }
 
